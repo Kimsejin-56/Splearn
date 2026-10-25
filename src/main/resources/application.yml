@@ -1,1 +1,3 @@
-spring.application.name=splearn
+spring:
+  application:
+    name: splearn
