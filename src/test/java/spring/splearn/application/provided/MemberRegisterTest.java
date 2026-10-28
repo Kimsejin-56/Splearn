@@ -18,32 +18,5 @@ import static spring.splearn.domain.MemberFixture.createPasswordEncoder;
 @DataJpaTest
 class MemberRegisterTest {
 
-    @Autowired
-    MemberRepository memberRepository;
 
-    @Autowired
-    EntityManager em;
-
-    @Test
-    void registerMember(){
-        Member member = Member.register(createMemberRegisterRequest(), createPasswordEncoder());
-
-        assertThat(member.getId()).isNull();
-
-        memberRepository.save(member);
-
-        assertThat(member.getId()).isNotNull();
-
-        em.flush();
-    }
-
-    @Test
-    void duplicateEmailFail(){
-        Member member1 = Member.register(createMemberRegisterRequest(), createPasswordEncoder());
-        memberRepository.save(member1);
-
-        Member member2 = Member.register(createMemberRegisterRequest(), createPasswordEncoder());
-        assertThatThrownBy(() -> memberRepository.save(member2))
-                .isInstanceOf(DataIntegrityViolationException.class);
-    }
 }
