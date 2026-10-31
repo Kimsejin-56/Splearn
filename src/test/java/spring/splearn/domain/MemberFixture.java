@@ -7,7 +7,7 @@ public class MemberFixture {
     }
 
     public static MemberRegisterRequest createMemberRegisterRequest() {
-        return new MemberRegisterRequest("SJ@splearn.app", "SJ", "secret");
+        return new MemberRegisterRequest("SJ@splearn.app", "SJ---", "verysecret");
     }
 
     public static PasswordEncoder createPasswordEncoder() {
