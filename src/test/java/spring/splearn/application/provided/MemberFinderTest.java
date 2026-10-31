@@ -6,13 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import spring.splearn.SplearnTestConfiguration;
-import spring.splearn.application.required.MemberRepository;
 import spring.splearn.domain.Member;
-import spring.splearn.domain.MemberFixture;
 
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static spring.splearn.domain.MemberFixture.createMemberRegisterRequest;
 
 @SpringBootTest

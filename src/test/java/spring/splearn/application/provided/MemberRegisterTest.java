@@ -2,14 +2,17 @@ package spring.splearn.application.provided;
 
 
 import jakarta.persistence.EntityManager;
-import jakarta.validation.Valid;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import spring.splearn.SplearnTestConfiguration;
-import spring.splearn.domain.*;
+import spring.splearn.domain.DuplicateEmailException;
+import spring.splearn.domain.Member;
+import spring.splearn.domain.MemberRegisterRequest;
+import spring.splearn.domain.MemberStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,7 +22,7 @@ import static spring.splearn.domain.MemberFixture.createMemberRegisterRequest;
 @Transactional
 @Valid
 @Import(SplearnTestConfiguration.class)
-public record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
+record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
 
     @Test
     void register(){
@@ -31,7 +34,7 @@ public record MemberRegisterTest(MemberRegister memberRegister, EntityManager en
 
     @Test
     void duplicateEmailFail(){
-        Member member = memberRegister.register(createMemberRegisterRequest());
+        memberRegister.register(createMemberRegisterRequest());
 
         assertThatThrownBy(() -> memberRegister.register(createMemberRegisterRequest()))
                 .isInstanceOf(DuplicateEmailException.class);
