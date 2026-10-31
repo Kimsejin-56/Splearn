@@ -15,14 +15,8 @@ import static org.springframework.util.Assert.state;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@NaturalIdCache
-public class Member {
+public class Member extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Embedded
     @NaturalId
     private Email email;
 
@@ -30,7 +24,6 @@ public class Member {
 
     private String passwordHash;
 
-    @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
     public static Member register(MemberRegisterRequest createRequest , PasswordEncoder passwordEncoder) {
