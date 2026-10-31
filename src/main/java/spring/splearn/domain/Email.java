@@ -1,8 +1,5 @@
 package spring.splearn.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-
 import java.util.regex.Pattern;
 
 public record Email(String address) {
