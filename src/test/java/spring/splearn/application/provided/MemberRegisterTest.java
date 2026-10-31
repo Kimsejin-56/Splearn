@@ -1,6 +1,7 @@
 package spring.splearn.application.provided;
 
 
+import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
@@ -8,10 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import spring.splearn.SplearnTestConfiguration;
-import spring.splearn.domain.DuplicateEmailException;
-import spring.splearn.domain.Member;
-import spring.splearn.domain.MemberRegisterRequest;
-import spring.splearn.domain.MemberStatus;
+import spring.splearn.domain.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -21,7 +19,7 @@ import static spring.splearn.domain.MemberFixture.createMemberRegisterRequest;
 @Transactional
 @Valid
 @Import(SplearnTestConfiguration.class)
-public record MemberRegisterTest(MemberRegister memberRegister) {
+public record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
 
     @Test
     void register(){
@@ -44,6 +42,16 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
         extracted(new MemberRegisterRequest("SJ@splearn.app", "SJ", "verysecret"));
         extracted(new MemberRegisterRequest("SJ@splearn.app", "SJ-------", "secret"));
         extracted(new MemberRegisterRequest("SJsplearn.app", "SJ--------", "verysecret"));
+    }
+    
+    @Test
+    void activate(){
+        Member member = memberRegister.register(createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+
+        memberRegister.activate(member.getId());
+        entityManager.flush();
     }
 
     private void extracted(MemberRegisterRequest invalid) {
