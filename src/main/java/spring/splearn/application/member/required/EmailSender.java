@@ -1,6 +1,6 @@
-package spring.splearn.application.required;
+package spring.splearn.application.member.required;
 
-import spring.splearn.domain.Email;
+import spring.splearn.domain.shared.Email;
 
 /**
  * 이메일을 발송한다.

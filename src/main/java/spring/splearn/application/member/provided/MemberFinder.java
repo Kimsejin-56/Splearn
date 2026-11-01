@@ -1,6 +1,6 @@
-package spring.splearn.application.provided;
+package spring.splearn.application.member.provided;
 
-import spring.splearn.domain.Member;
+import spring.splearn.domain.member.Member;
 
 /**
  * 회원의 정보 조회와 관련된 기능을 제공한다.

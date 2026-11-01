@@ -1,4 +1,4 @@
-package spring.splearn.application.provided;
+package spring.splearn.application.member.provided;
 
 
 import jakarta.persistence.EntityManager;
@@ -9,14 +9,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import spring.splearn.SplearnTestConfiguration;
-import spring.splearn.domain.DuplicateEmailException;
-import spring.splearn.domain.Member;
-import spring.splearn.domain.MemberRegisterRequest;
-import spring.splearn.domain.MemberStatus;
+import spring.splearn.application.member.provided.MemberRegister;
+import spring.splearn.domain.member.DuplicateEmailException;
+import spring.splearn.domain.member.Member;
+import spring.splearn.domain.member.MemberRegisterRequest;
+import spring.splearn.domain.member.MemberStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static spring.splearn.domain.MemberFixture.createMemberRegisterRequest;
+import static spring.splearn.domain.member.MemberFixture.createMemberRegisterRequest;
 
 @SpringBootTest
 @Transactional

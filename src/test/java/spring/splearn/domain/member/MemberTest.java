@@ -1,12 +1,12 @@
-package spring.splearn.domain;
+package spring.splearn.domain.member;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static spring.splearn.domain.MemberFixture.createMemberRegisterRequest;
-import static spring.splearn.domain.MemberFixture.createPasswordEncoder;
+import static spring.splearn.domain.member.MemberFixture.createMemberRegisterRequest;
+import static spring.splearn.domain.member.MemberFixture.createPasswordEncoder;
 
 class MemberTest {
     Member member;
@@ -19,15 +19,19 @@ class MemberTest {
     }
 
     @Test
-    void registerMember(){
+    void registerMember() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+        assertThat(member.getDetail().getRegisteredAt()).isNotNull();
     }
 
     @Test
     void activate(){
+        assertThat(member.getDetail().getActivatedAt()).isNull();
+
         member.activate();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(member.getDetail().getActivatedAt()).isNotNull();
     }
     
     @Test
@@ -46,6 +50,7 @@ class MemberTest {
         member.deactivate();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+        assertThat(member.getDetail().getDeactivatedAt()).isNotNull();
     }
 
     @Test
@@ -66,15 +71,6 @@ class MemberTest {
     void verifyPassword(){
         assertThat(member.verifyPassword("verysecret", passwordEncoder)).isTrue();
         assertThat(member.verifyPassword("hello", passwordEncoder)).isFalse();
-    }
-
-    @Test
-    void changeNickname() {
-        assertThat(member.getNickname()).isEqualTo("SJ---");
-
-        member.changeNickname("chSJ---");
-
-        assertThat(member.getNickname()).isEqualTo("chSJ---");
     }
 
     @Test
@@ -104,5 +100,17 @@ class MemberTest {
         ).isInstanceOf(IllegalArgumentException.class);
 
         Member.register(createMemberRegisterRequest(), passwordEncoder);
+    }
+
+    @Test
+    void updateInfo() {
+        member.activate();
+
+        MemberInfoUpdateRequest request = new MemberInfoUpdateRequest("david", "david2", "자기소개");
+        member.updateInfo(request);
+
+        assertThat(member.getNickname()).isEqualTo(request.nickname());
+        assertThat(member.getDetail().getProfile().address()).isEqualTo(request.profileAddress());
+        assertThat(member.getDetail().getIntroduction()).isEqualTo(request.introduction());
     }
 }

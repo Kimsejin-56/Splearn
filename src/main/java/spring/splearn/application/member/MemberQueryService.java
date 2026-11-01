@@ -1,11 +1,11 @@
-package spring.splearn.application;
+package spring.splearn.application.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import spring.splearn.application.provided.MemberFinder;
-import spring.splearn.application.required.MemberRepository;
-import spring.splearn.domain.Member;
+import spring.splearn.application.member.provided.MemberFinder;
+import spring.splearn.application.member.required.MemberRepository;
+import spring.splearn.domain.member.Member;
 
 @Service
 @Transactional(readOnly = true)

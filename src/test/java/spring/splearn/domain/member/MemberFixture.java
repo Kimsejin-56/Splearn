@@ -1,4 +1,4 @@
-package spring.splearn.domain;
+package spring.splearn.domain.member;
 
 public class MemberFixture {
 

@@ -2,7 +2,7 @@ package spring.splearn.adapter.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import spring.splearn.domain.PasswordEncoder;
+import spring.splearn.domain.member.PasswordEncoder;
 
 @Component
 public class SecurePasswordEncoder implements PasswordEncoder {

@@ -1,14 +1,18 @@
-package spring.splearn.application;
+package spring.splearn.application.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import spring.splearn.application.provided.MemberFinder;
-import spring.splearn.application.provided.MemberRegister;
-import spring.splearn.application.required.EmailSender;
-import spring.splearn.application.required.MemberRepository;
-import spring.splearn.domain.*;
+import spring.splearn.application.member.provided.MemberFinder;
+import spring.splearn.application.member.provided.MemberRegister;
+import spring.splearn.application.member.required.EmailSender;
+import spring.splearn.application.member.required.MemberRepository;
+import spring.splearn.domain.member.Member;
+import spring.splearn.domain.member.MemberRegisterRequest;
+import spring.splearn.domain.member.PasswordEncoder;
+import spring.splearn.domain.member.DuplicateEmailException;
+import spring.splearn.domain.shared.Email;
 
 @Service
 @Transactional

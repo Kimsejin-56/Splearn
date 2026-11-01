@@ -7,7 +7,7 @@
 
     <access>FIELD</access>
 
-    <embeddable class="spring.splearn.domain.Email">
+    <embeddable class="spring.splearn.domain.shared.Email">
         <attributes>
             <basic name="address">
                 <column name="email_address" length="150" nullable="false"/>
@@ -23,7 +23,7 @@
         </attributes>
     </mapped-superclass>
 
-    <entity class="spring.splearn.domain.Member">
+    <entity class="spring.splearn.domain.member.Member">
         <table name="MEMBER">
             <unique-constraint name="UK_MEMBER_EMAIL_ADDRESS">
                 <column-name>email_address</column-name>
