@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import spring.splearn.application.member.required.MemberRepository;
 import spring.splearn.domain.member.Member;
 import spring.splearn.domain.member.MemberStatus;
 

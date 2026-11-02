@@ -66,7 +66,9 @@ public class Member extends AbstractEntity {
     }
 
     public void updateInfo(MemberInfoUpdateRequest updateRequest) {
-        this.nickname=requireNonNull(updateRequest.nickname());
+        state(getStatus() == MemberStatus.ACTIVE, "등록 완료 상태가 아니면 정보를 수정할 수 없습니다.");
+
+        this.nickname = requireNonNull(updateRequest.nickname());
 
         this.detail.updateInfo(updateRequest);
     }

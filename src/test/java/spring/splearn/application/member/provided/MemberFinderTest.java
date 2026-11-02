@@ -6,8 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import spring.splearn.SplearnTestConfiguration;
-import spring.splearn.application.member.provided.MemberFinder;
-import spring.splearn.application.member.provided.MemberRegister;
 import spring.splearn.domain.member.Member;
 
 import static org.assertj.core.api.Assertions.assertThat;

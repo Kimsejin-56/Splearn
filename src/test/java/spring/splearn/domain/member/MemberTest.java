@@ -113,4 +113,12 @@ class MemberTest {
         assertThat(member.getDetail().getProfile().address()).isEqualTo(request.profileAddress());
         assertThat(member.getDetail().getIntroduction()).isEqualTo(request.introduction());
     }
+
+    @Test
+    void updateInfoFail() {
+        assertThatThrownBy(() -> {
+            MemberInfoUpdateRequest request = new MemberInfoUpdateRequest("peter", "profile", "Hi");
+            member.updateInfo(request);
+        }).isInstanceOf(IllegalStateException.class);
+    }
 }

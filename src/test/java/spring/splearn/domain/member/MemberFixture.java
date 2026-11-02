@@ -2,8 +2,8 @@ package spring.splearn.domain.member;
 
 public class MemberFixture {
 
-    public static MemberRegisterRequest createMemberRegisterRequest(String mail) {
-        return new MemberRegisterRequest(mail, "SJ", "secret");
+    public static MemberRegisterRequest createMemberRegisterRequest(String email) {
+        return new MemberRegisterRequest(email, "SJ---", "verysecret");
     }
 
     public static MemberRegisterRequest createMemberRegisterRequest() {

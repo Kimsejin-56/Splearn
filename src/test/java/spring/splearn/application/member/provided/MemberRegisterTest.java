@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import spring.splearn.SplearnTestConfiguration;
-import spring.splearn.application.member.provided.MemberRegister;
 import spring.splearn.domain.member.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -85,8 +84,37 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityMan
         assertThat(member.getDetail().getProfile().address()).isEqualTo("profile");
     }
 
+    @Test
+    void updateInfoFail(){
+        Member member = registerMember();
+        memberRegister.activate(member.getId());
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("peter", "profile", "Hi"));
+
+        Member member2 = registerMember("SJ@naver.com");
+        memberRegister.activate(member2.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        assertThatThrownBy(() -> memberRegister.updateInfo(member2.getId(),  new MemberInfoUpdateRequest("peter2", "profile", "Hi")))
+            .isInstanceOf(DuplicateProfileException.class);
+
+        memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("peter2", "profile2", "Hi"));
+        memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("peter2", "", "Hi"));
+        memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("peter2", "profile2", "Hi"));
+
+        assertThatThrownBy(() -> memberRegister.updateInfo(member.getId(),  new MemberInfoUpdateRequest("peter2", "profile2", "Hi")))
+                .isInstanceOf(DuplicateProfileException.class);
+    }
+
     private Member registerMember() {
         Member member = memberRegister.register(createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+        return member;
+    }
+
+    private Member registerMember(String email) {
+        Member member = memberRegister.register(createMemberRegisterRequest(email));
         entityManager.flush();
         entityManager.clear();
         return member;
