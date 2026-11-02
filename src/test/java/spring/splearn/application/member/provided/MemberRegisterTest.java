@@ -10,10 +10,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import spring.splearn.SplearnTestConfiguration;
 import spring.splearn.application.member.provided.MemberRegister;
-import spring.splearn.domain.member.DuplicateEmailException;
-import spring.splearn.domain.member.Member;
-import spring.splearn.domain.member.MemberRegisterRequest;
-import spring.splearn.domain.member.MemberStatus;
+import spring.splearn.domain.member.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -52,12 +49,47 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityMan
     
     @Test
     void activate(){
-        Member member = memberRegister.register(createMemberRegisterRequest());
+        Member member = registerMember();
+
+        member = memberRegister.activate(member.getId());
+        entityManager.flush();
+
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(member.getDetail().getActivatedAt()).isNotNull();
+    }
+
+    @Test
+    void deactivate(){
+        Member member = registerMember();
+
+        member = memberRegister.activate(member.getId());
         entityManager.flush();
         entityManager.clear();
 
-        memberRegister.activate(member.getId());
+        member = memberRegister.deactivate(member.getId());
+
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+        assertThat(member.getDetail().getDeactivatedAt()).isNotNull();
+    }
+
+    @Test
+    void updateInfo(){
+        Member member = registerMember();
+
+        member = memberRegister.activate(member.getId());
         entityManager.flush();
+        entityManager.clear();
+
+        member = memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("peter", "profile", "Hi"));
+
+        assertThat(member.getDetail().getProfile().address()).isEqualTo("profile");
+    }
+
+    private Member registerMember() {
+        Member member = memberRegister.register(createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+        return member;
     }
 
     private void extracted(MemberRegisterRequest invalid) {

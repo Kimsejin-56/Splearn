@@ -7,14 +7,6 @@
 
     <access>FIELD</access>
 
-    <embeddable class="spring.splearn.domain.shared.Email">
-        <attributes>
-            <basic name="address">
-                <column name="email_address" length="150" nullable="false"/>
-            </basic>
-        </attributes>
-    </embeddable>
-
     <mapped-superclass class="spring.splearn.domain.AbstractEntity">
         <attributes>
             <id name="id">
@@ -28,11 +20,12 @@
             <unique-constraint name="UK_MEMBER_EMAIL_ADDRESS">
                 <column-name>email_address</column-name>
             </unique-constraint>
+            <unique-constraint name="UK_MEMBER_DETAIL_ID">
+                <column-name>detail_id</column-name>
+            </unique-constraint>
         </table>
 
         <attributes>
-            <embedded name="email"/>
-
             <basic name="nickname">
                 <column length="100" nullable="false"/>
             </basic>
@@ -45,7 +38,57 @@
                 <column length="50" nullable="false"/>
                 <enumerated>STRING</enumerated>
             </basic>
+
+            <one-to-one name="detail" fetch="LAZY">
+                <join-column name="detail_id" referenced-column-name="id"/>
+                <foreign-key name="FK_MEMBER_DETAIL_ID"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-one>
+
+            <embedded name="email"/>
         </attributes>
     </entity>
+
+    <entity class="spring.splearn.domain.member.MemberDetail">
+        <table name="MEMBER_DETAIL">
+            <unique-constraint name="UK_MEMBER_DETAIL_PROFILE_ADDRESS">
+                <column-name>profile_address</column-name>
+            </unique-constraint>
+        </table>
+
+        <attributes>
+            <basic name="introduction">
+                <column column-definition="TEXT"/>
+            </basic>
+
+            <basic name="registeredAt">
+                <column nullable="false"/>
+            </basic>
+
+            <basic name="activatedAt"/>
+
+            <basic name="deactivatedAt"/>
+
+            <embedded name="profile"/>
+        </attributes>
+    </entity>
+
+    <embeddable class="spring.splearn.domain.member.Profile">
+        <attributes>
+            <basic name="address">
+                <column name="profile_address" length="20"/>
+            </basic>
+        </attributes>
+    </embeddable>
+
+    <embeddable class="spring.splearn.domain.shared.Email">
+        <attributes>
+            <basic name="address">
+                <column name="email_address" length="150" nullable="false"/>
+            </basic>
+        </attributes>
+    </embeddable>
 
 </entity-mappings>
