@@ -17,5 +17,4 @@ public record Profile(String address) {
     public String url(){
         return "@" + address;
     }
-
 }
