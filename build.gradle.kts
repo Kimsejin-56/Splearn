@@ -40,6 +40,7 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testAnnotationProcessor("org.projectlombok:lombok")
+    testImplementation("com.tngtech.archunit:archunit-junit6:1.5.1")
     testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
 }
 
